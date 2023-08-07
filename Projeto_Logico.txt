@@ -1,0 +1,81 @@
+Empregado(CPF, nome, dataNasci, estadoCivil, nacionalidade, salario, cep, numero)
+	cep referencia Endereço(CEP);
+	numero referencia Endereço(numero);
+
+Psicologo(cpf, cnp)
+	cpf referencia Empregado(CPF);
+
+Jogador(cpf, nomeUsuário, equipe)
+	cpf referencia Empregado(CPF);
+	equipe referencia Equipe(ID_EQUIPE);
+
+Técnico(equipe)
+	equipe referencia Equipe(ID_EQUIPE);
+
+Endereço(CEP, rua, numero, bairro, complemento, cidade, estado)
+
+Telefone(DDD, DDI, numero, cod_identificador_empregado,  cod_identificador_empresa)
+	cod_identificador_empregado referencia Empregado(CPF);    
+cod_identificador_empresa referencia Empresa (CNPJ);	
+
+Conta(Id, Plataforma, jogador, email, nome)
+	Plataforma referencia Plataforma(ID_Plat);
+	jogador referencia Jogador(CPF);
+
+Empresa(CNPJ, nome, cep, numero)
+	cep referencia Endereço(CEP);
+	numero referencia Endereço(numero);
+
+Patrocinador(cnpj*)
+	cnpj referencia Empresa(CNPJ);
+
+Desenvolvedora(cnpj*)
+	cnpj referencia Empresa(CNPJ);
+
+Organização(cnpj*)
+	cnpj referencia Empresa(CNPJ);
+
+Plataforma(ID_Plat, nome)
+
+Jogo Competitivo(ID_Jogo, desenvolvedora, id_plat, nome, dataLançamento, versao)
+	desenvolvedora referencia Desenvolvedora(CNPJ);
+	id_plat referencia Plataforma(ID_Plat);
+
+Equipe(ID_Equipe, org, psicologo, nome, divisao) 
+	org referencia Empresa(CNPJ);
+	psicologo referencia Psicologo(cpf);	
+
+Partida(ID_PARTIDA, equipe1, equipe2, edicao, data_partida, vencedor, servidor, mvp)
+	EQUIPE1 referencia Equipe(ID_Equipe);
+	EQUIPE2 referencia Equipe(ID_Equipe);
+	EDICAO referencia Edição(Id_edição);
+	mvp referencia Jogador(cpf);
+	vencedor referencia Equipe(ID_Equipe);
+
+Edição(ID_Edicao, campeonato, data_inicio, data_fim, nome, premiacao_primeiro, premiacao_segundo, premiacao_terceiro, vencedor)  
+	campeonato referencia Campeonato(ID_CAMPEONATO);
+	vencedor referencia Equipe(Id_Equipe);
+
+
+Campeonato(ID_Campeonato, nome, id_jogo)
+	id_jogo referencia Jogo_Competitivo(ID_Jogo);
+
+Edição_Equipe(ID_Edicao, ID_Equipe)
+	ID_Edicao referencia Edição;
+	ID_Equipe referencia Equipe;
+
+Edicao_Patrocinador( cnpj, ID_Edicao, valor_patrocinio)
+	cnpj referencia Patrocinador;
+	ID_Edicao referencia Edição;
+
+Partida_Jogador(ID_Partida, cpf, num_kills, num_assists, num_deaths)
+	ID_Partida referencia Partida(ID_Partida); 
+	cpf referencia Jogador;
+
+Organizacao_Patrocinador(CNPJ_ORG*, CNPJ_PAT*, valor_patrocinio)
+	CNPJ_ORG referencia Empresa(CNPJ);
+	CNPJ_PAT referencia Empresa (CNPJ);
+
+Jogador_Equipe(ID_Jogador, ID_Equipe, data_inicio, data_fim)
+	ID_Jogador referencia Jogador(cpf);
+	ID_Equipe referencia Equipe;
